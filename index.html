@@ -922,7 +922,7 @@
   <div class="nav-links">
     <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
     <a onclick="showPage('history')" id="nav-history">History</a>
-    <a onclick="showPage('gallery')" id="nav-gallery">Gallery</a>
+    <a onclick="showPage('gallery'); loadGallery()" id="nav-gallery">Gallery</a>
     <a onclick="showPage('members')" id="nav-members">Members</a>
     <a onclick="showPage('events'); loadEvents()" id="nav-events">Events</a>
     <a onclick="showPage('payment')" id="nav-payment" class="nav-cta">Support Us</a>
@@ -1255,7 +1255,7 @@
   <div class="footer-right">
     <a onclick="showPage('home')">Home</a>
     <a onclick="showPage('history')">History</a>
-    <a onclick="showPage('gallery')">Gallery</a>
+    <a onclick="showPage('gallery'); loadGallery()">Gallery</a>
     <a onclick="showPage('members')">Members</a>
     <a onclick="showPage('events'); loadEvents()">Events</a>
     <a onclick="showPage('payment')">Support</a>
@@ -1417,14 +1417,13 @@
   const GALLERY_API = `https://api.github.com/repos/${REPO}/contents/_data/gallery`;
 
   async function loadGallery() {
-    const container = document.getElementById('gallery-container');
     try {
       const res = await fetch(GALLERY_API);
-      if (!res.ok) throw new Error('No gallery entries');
+      if (!res.ok) return; // No CMS entries yet — keep placeholders as-is
       const files = await res.json();
 
       const galleryFiles = files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.yml'));
-      if (galleryFiles.length === 0) throw new Error('No entries yet');
+      if (galleryFiles.length === 0) return; // Nothing to do — keep placeholders
 
       const items = await Promise.all(galleryFiles.map(async f => {
         const r = await fetch(f.download_url);
@@ -1432,11 +1431,41 @@
         return parseFrontmatter(text);
       }));
 
-      // Render — first item gets 'tall' class to match original layout
-      container.innerHTML = items.map((item, i) => renderGalleryCell(item, i)).join('');
+      // For each CMS entry, find a matching placeholder cell by category and update it
+      // If no match found, append as a new cell
+      items.forEach((item, i) => {
+        const cat = (item.category || '').trim();
+        const title = item.title || '';
+        const caption = item.caption || '';
+        const photo = item.photo || '';
+
+        // Try to find an existing placeholder cell with matching category
+        const container = document.getElementById('gallery-container');
+        const existing = container.querySelector(`.gallery-cell[data-cat="${cat}"]`);
+
+        if (existing) {
+          // Update the existing placeholder cell in place
+          if (photo) {
+            existing.style.backgroundImage = `url('${photo}')`;
+            existing.style.backgroundSize = 'cover';
+            existing.style.backgroundPosition = 'center';
+            existing.setAttribute('onclick', `openLightbox('','${cat}','${title.replace(/'/g,"\\'")}','${caption.replace(/'/g,"\\'")}','${photo}')`);
+            existing.innerHTML = `<h3>${title}</h3><p>${caption}</p>`;
+          } else {
+            existing.setAttribute('onclick', `openLightbox('📷','${cat}','${title.replace(/'/g,"\\'")}','${caption.replace(/'/g,"\\'")}')`);
+          }
+        } else {
+          // No matching placeholder — append as new cell
+          const div = document.createElement('div');
+          div.className = 'gallery-cell';
+          div.setAttribute('data-cat', cat);
+          div.innerHTML = renderGalleryCell(item, i);
+          container.appendChild(div);
+        }
+      });
 
     } catch (e) {
-      // If no CMS photos yet, keep the existing placeholder cells — do nothing
+      // On any error keep placeholders unchanged
     }
   }
 
@@ -1475,7 +1504,6 @@
     });
     // Also load if events or gallery page is active on initial load
     if (document.getElementById('page-events').classList.contains('active')) loadEvents();
-    if (document.getElementById('page-gallery').classList.contains('active')) loadGallery();
   });
 </script>
 </body>
