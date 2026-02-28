@@ -1,0 +1,42 @@
+backend:
+  name: github
+  repo: prolifixdev/vulcan-society-fdny
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "events"
+    label: "Events"
+    folder: "_data/events"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Event Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Location", name: "location", widget: "string" }
+      - { label: "Description", name: "description", widget: "text" }
+      - { label: "Tag", name: "tag", widget: "string", hint: "e.g. Annual Event, Community, FDNY" }
+
+  - name: "gallery"
+    label: "Gallery"
+    folder: "_data/gallery"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "string", hint: "e.g. Annual Event, Community, FDNY, Education" }
+      - { label: "Photo", name: "photo", widget: "image" }
+      - { label: "Caption", name: "caption", widget: "string", required: false }
+
+  - name: "settings"
+    label: "Site Settings"
+    files:
+      - label: "General"
+        name: "general"
+        file: "_data/settings.yml"
+        fields:
+          - { label: "Site Title", name: "title", widget: "string" }
+          - { label: "Contact Email", name: "email", widget: "string" }
+          - { label: "Hero Tagline", name: "tagline", widget: "text" }
