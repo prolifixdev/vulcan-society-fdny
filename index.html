@@ -993,7 +993,8 @@
     <div class="section-label">Events, People & Milestones</div>
     <div class="section-title">Gallery</div>
   </div>
-  <div class="gallery-masonry">
+  <div class="gallery-masonry" id="gallery-container">
+    <!-- Default placeholder cells shown until CMS photos are uploaded -->
     <div class="gallery-cell tall" data-cat="Annual Event">
       <div class="gallery-icon">🏆</div>
       <h3>Scholarship Dinner 2024</h3>
@@ -1305,17 +1306,70 @@
       </div>`;
   }
 
-  // Hook into nav clicks to load events when Events page is shown
+
+  // ── Dynamic Gallery Loader ─────────────────────────────────────────────
+  const GALLERY_API = `https://api.github.com/repos/${REPO}/contents/_data/gallery`;
+
+  async function loadGallery() {
+    const container = document.getElementById('gallery-container');
+    try {
+      const res = await fetch(GALLERY_API);
+      if (!res.ok) throw new Error('No gallery entries');
+      const files = await res.json();
+
+      const galleryFiles = files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.yml'));
+      if (galleryFiles.length === 0) throw new Error('No entries yet');
+
+      const items = await Promise.all(galleryFiles.map(async f => {
+        const r = await fetch(f.download_url);
+        const text = await r.text();
+        return parseFrontmatter(text);
+      }));
+
+      // Render — first item gets 'tall' class to match original layout
+      container.innerHTML = items.map((item, i) => renderGalleryCell(item, i)).join('');
+
+    } catch (e) {
+      // If no CMS photos yet, keep the existing placeholder cells — do nothing
+    }
+  }
+
+  function renderGalleryCell(item, index) {
+    const tall = (index === 0 || index === 4) ? 'tall' : '';
+    const cat = item.category || '';
+    const title = item.title || '';
+    const caption = item.caption || '';
+    const photo = item.photo || '';
+
+    if (photo) {
+      // Real photo uploaded — show it as background image
+      return `
+        <div class="gallery-cell ${tall}" data-cat="${cat}" style="background-image: url('${photo}'); background-size: cover; background-position: center;">
+          <h3>${title}</h3>
+          <p>${caption}</p>
+        </div>`;
+    } else {
+      // No photo yet — keep placeholder emoji style (staff will upload later)
+      return `
+        <div class="gallery-cell ${tall}" data-cat="${cat}">
+          <div class="gallery-icon">📷</div>
+          <h3>${title}</h3>
+          <p>${caption}</p>
+        </div>`;
+    }
+  }
+
+  // Hook into nav clicks to load events and gallery when those pages are shown
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.nav-links a').forEach(link => {
       link.addEventListener('click', () => {
         if (link.id === 'nav-events') setTimeout(loadEvents, 50);
+        if (link.id === 'nav-gallery') setTimeout(loadGallery, 50);
       });
     });
-    // Also load if events page is active on initial load
-    if (document.getElementById('page-events').classList.contains('active')) {
-      loadEvents();
-    }
+    // Also load if events or gallery page is active on initial load
+    if (document.getElementById('page-events').classList.contains('active')) loadEvents();
+    if (document.getElementById('page-gallery').classList.contains('active')) loadGallery();
   });
 </script>
 </body>
