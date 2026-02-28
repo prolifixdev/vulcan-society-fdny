@@ -540,6 +540,69 @@
     color: var(--grey);
   }
 
+  /* ===== LIGHTBOX ===== */
+  .lightbox-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.92);
+    z-index: 9999;
+    align-items: center;
+    justify-content: center;
+    animation: lbFadeIn 0.2s ease;
+  }
+  .lightbox-overlay.open { display: flex; }
+  @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes lbScaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .lightbox-box {
+    background: #161616;
+    border: 1px solid var(--border);
+    max-width: 640px;
+    width: 90%;
+    padding: 48px;
+    position: relative;
+    animation: lbScaleIn 0.25s ease;
+  }
+  .lightbox-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    background: none;
+    border: 1px solid #333;
+    color: var(--grey);
+    width: 36px; height: 36px;
+    cursor: pointer;
+    font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s;
+  }
+  .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
+  .lb-cat {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .lb-photo {
+    width: 100%;
+    max-height: 320px;
+    object-fit: cover;
+    margin-bottom: 24px;
+    display: none;
+  }
+  .lb-photo.visible { display: block; }
+  .lb-emoji { font-size: 4rem; display: block; margin-bottom: 24px; opacity: 0.7; }
+  .lb-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem;
+    letter-spacing: 0.05em;
+    color: var(--white);
+    margin-bottom: 12px;
+  }
+  .lb-caption { font-size: 0.9rem; color: var(--grey); line-height: 1.7; }
+
   /* ===== MEMBERS ===== */
   .members-layout {
     display: grid;
@@ -995,42 +1058,42 @@
   </div>
   <div class="gallery-masonry" id="gallery-container">
     <!-- Default placeholder cells shown until CMS photos are uploaded -->
-    <div class="gallery-cell tall" data-cat="Annual Event">
+    <div class="gallery-cell tall" data-cat="Annual Event" onclick="openLightbox('🏆','Annual Event','Scholarship Dinner 2024','New York City · Black Tie')">
       <div class="gallery-icon">🏆</div>
       <h3>Scholarship Dinner 2024</h3>
       <p>New York City · Black Tie</p>
     </div>
-    <div class="gallery-cell" data-cat="FDNY">
+    <div class="gallery-cell" data-cat="FDNY" onclick="openLightbox('🚒','FDNY','FDNY Graduation','Class of 2024')">
       <div class="gallery-icon">🚒</div>
       <h3>FDNY Graduation</h3>
       <p>Class of 2024</p>
     </div>
-    <div class="gallery-cell" data-cat="Community">
+    <div class="gallery-cell" data-cat="Community" onclick="openLightbox('🌍','Community','Community Outreach Day','Harlem, New York')">
       <div class="gallery-icon">🌍</div>
       <h3>Community Outreach Day</h3>
       <p>Harlem, New York</p>
     </div>
-    <div class="gallery-cell" data-cat="Education">
+    <div class="gallery-cell" data-cat="Education" onclick="openLightbox('📖','Education','Fire Safety Workshop','Brooklyn Schools Program')">
       <div class="gallery-icon">📖</div>
       <h3>Fire Safety Workshop</h3>
       <p>Brooklyn Schools Program</p>
     </div>
-    <div class="gallery-cell tall" data-cat="Mentorship">
+    <div class="gallery-cell tall" data-cat="Mentorship" onclick="openLightbox('🤝','Mentorship','Mentorship Program','2023 Cohort Launch')">
       <div class="gallery-icon">🤝</div>
       <h3>Mentorship Program</h3>
       <p>2023 Cohort Launch</p>
     </div>
-    <div class="gallery-cell" data-cat="Legacy">
+    <div class="gallery-cell" data-cat="Legacy" onclick="openLightbox('⚖️','Legacy','Legal Victory','Federal Lawsuit · 2007')">
       <div class="gallery-icon">⚖️</div>
       <h3>Legal Victory</h3>
       <p>Federal Lawsuit · 2007</p>
     </div>
-    <div class="gallery-cell" data-cat="Training">
+    <div class="gallery-cell" data-cat="Training" onclick="openLightbox('🔥','Training','Fire Academy Training','Randalls Island, NY')">
       <div class="gallery-icon">🔥</div>
       <h3>Fire Academy Training</h3>
       <p>Randalls Island, NY</p>
     </div>
-    <div class="gallery-cell" data-cat="Awards">
+    <div class="gallery-cell" data-cat="Awards" onclick="openLightbox('🎓','Awards','Scholarship Recipients','10 Awards Given · 2023')">
       <div class="gallery-icon">🎓</div>
       <h3>Scholarship Recipients</h3>
       <p>10 Awards Given · 2023</p>
@@ -1208,6 +1271,18 @@
     window.scrollTo(0,0);
   }
 </script>
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-box">
+    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+    <div class="lb-cat" id="lb-cat"></div>
+    <img class="lb-photo" id="lb-photo" alt="">
+    <span class="lb-emoji" id="lb-emoji"></span>
+    <div class="lb-title" id="lb-title"></div>
+    <div class="lb-caption" id="lb-caption"></div>
+  </div>
+</div>
+
 <script>
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on("init", user => {
@@ -1221,6 +1296,37 @@
 </script>
 
 <script>
+  // ── Lightbox ──────────────────────────────────────────────────────────
+  function openLightbox(emoji, cat, title, caption, photo) {
+    document.getElementById('lb-cat').textContent = cat;
+    document.getElementById('lb-title').textContent = title;
+    document.getElementById('lb-caption').textContent = caption;
+    const emojiEl = document.getElementById('lb-emoji');
+    const photoEl = document.getElementById('lb-photo');
+    if (photo) {
+      photoEl.src = photo;
+      photoEl.classList.add('visible');
+      emojiEl.style.display = 'none';
+    } else {
+      emojiEl.textContent = emoji;
+      emojiEl.style.display = 'block';
+      photoEl.classList.remove('visible');
+    }
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(e) {
+    if (!e || e.target === document.getElementById('lightbox')) {
+      document.getElementById('lightbox').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
   // ── Dynamic Events Loader ──────────────────────────────────────────────
   const REPO = 'prolifixdev/vulcan-society-fdny';
   const EVENTS_API = `https://api.github.com/repos/${REPO}/contents/_data/events`;
@@ -1342,16 +1448,16 @@
     const photo = item.photo || '';
 
     if (photo) {
-      // Real photo uploaded — show it as background image
+      // Real photo uploaded — show it as background image, lightbox shows full photo
       return `
-        <div class="gallery-cell ${tall}" data-cat="${cat}" style="background-image: url('${photo}'); background-size: cover; background-position: center;">
+        <div class="gallery-cell ${tall}" data-cat="${cat}" style="background-image: url('${photo}'); background-size: cover; background-position: center;" onclick="openLightbox('','${cat}','${title}','${caption}','${photo}')">
           <h3>${title}</h3>
           <p>${caption}</p>
         </div>`;
     } else {
-      // No photo yet — keep placeholder emoji style (staff will upload later)
+      // No photo yet — placeholder emoji, lightbox shows emoji + details
       return `
-        <div class="gallery-cell ${tall}" data-cat="${cat}">
+        <div class="gallery-cell ${tall}" data-cat="${cat}" onclick="openLightbox('📷','${cat}','${title}','${caption}')">
           <div class="gallery-icon">📷</div>
           <h3>${title}</h3>
           <p>${caption}</p>
