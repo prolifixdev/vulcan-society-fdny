@@ -1444,19 +1444,10 @@
         const existing = container.querySelector(`.gallery-cell[data-cat="${cat}"]`);
 
         if (existing) {
-          // Update the existing placeholder cell in place — preserve tall class
-          const isTall = existing.classList.contains('tall');
-          if (photo) {
-            existing.style.backgroundImage = `url('${photo}')`;
-            existing.style.backgroundSize = 'cover';
-            existing.style.backgroundPosition = 'center';
-            existing.style.minHeight = '';
-            existing.setAttribute('onclick', `openLightbox('','${cat}','${title.replace(/'/g,"\\'")}','${caption.replace(/'/g,"\\'")}','${photo}')`);
-            existing.innerHTML = `<h3 style="text-shadow: 0 1px 4px rgba(0,0,0,0.8)">${title}</h3><p style="text-shadow: 0 1px 4px rgba(0,0,0,0.8)">${caption}</p>`;
-          } else {
-            existing.setAttribute('onclick', `openLightbox('📷','${cat}','${title.replace(/'/g,"\\'")}','${caption.replace(/'/g,"\\'")}')`);
-          }
-          if (isTall) existing.classList.add('tall');
+          // Cell always keeps its emoji placeholder appearance
+          // Photo only appears inside the lightbox when clicked
+          const emoji = existing.querySelector('.gallery-icon') ? existing.querySelector('.gallery-icon').textContent : '📷';
+          existing.setAttribute('onclick', `openLightbox('${emoji}','${cat}','${title.replace(/'/g,"\\'")}','${caption.replace(/'/g,"\\'")}','${photo.replace(/'/g,"\\'")}')`);
         } else {
           // No matching placeholder — append as new cell
           const div = document.createElement('div');
