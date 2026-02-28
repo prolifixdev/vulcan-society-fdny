@@ -1100,61 +1100,8 @@
   <div class="events-wrap">
     <div class="section-label" style="margin-bottom: 12px;">What's Coming Up</div>
     <div class="section-title" style="margin-bottom: 56px;">Upcoming Events</div>
-
-    <div class="event-row">
-      <div class="ev-date">
-        <div class="ev-month">Mar</div>
-        <div class="ev-day">15</div>
-        <div class="ev-year">2026</div>
-      </div>
-      <div>
-        <div class="ev-tag">Fundraiser · Black Tie</div>
-        <div class="ev-title">Annual Scholarship Dinner</div>
-        <div class="ev-meta">New York Marriott Marquis, Times Square · 6:00 PM</div>
-      </div>
-      <button class="btn btn-gold" onclick="showPage('payment')">Register</button>
-    </div>
-
-    <div class="event-row">
-      <div class="ev-date">
-        <div class="ev-month">Apr</div>
-        <div class="ev-day">5</div>
-        <div class="ev-year">2026</div>
-      </div>
-      <div>
-        <div class="ev-tag">Community · Free</div>
-        <div class="ev-title">Fire Safety Workshop — Harlem</div>
-        <div class="ev-meta">PS 175 Henry H. Garnet Elementary School · 10:00 AM</div>
-      </div>
-      <button class="btn btn-ghost">RSVP</button>
-    </div>
-
-    <div class="event-row">
-      <div class="ev-date">
-        <div class="ev-month">May</div>
-        <div class="ev-day">10</div>
-        <div class="ev-year">2026</div>
-      </div>
-      <div>
-        <div class="ev-tag">Mentorship · Application Required</div>
-        <div class="ev-title">Mentorship Program Kickoff</div>
-        <div class="ev-meta">FDNY Fire Academy, Randalls Island · 9:00 AM</div>
-      </div>
-      <button class="btn btn-ghost">Apply</button>
-    </div>
-
-    <div class="event-row">
-      <div class="ev-date">
-        <div class="ev-month">Jun</div>
-        <div class="ev-day">22</div>
-        <div class="ev-year">2026</div>
-      </div>
-      <div>
-        <div class="ev-tag">Members Only</div>
-        <div class="ev-title">General Membership Meeting</div>
-        <div class="ev-meta">Vulcan Society HQ, New York City · 7:00 PM</div>
-      </div>
-      <button class="btn btn-ghost" onclick="showPage('members')">Login</button>
+    <div id="events-container">
+      <div style="color: var(--grey); font-family: 'Barlow', sans-serif; padding: 40px 0;">Loading events...</div>
     </div>
   </div>
 </div>
@@ -1270,6 +1217,107 @@
       }
     });
   }
+</script>
+
+<script>
+  // ── Dynamic Events Loader ──────────────────────────────────────────────
+  const REPO = 'prolifixdev/vulcan-society-fdny';
+  const EVENTS_API = `https://api.github.com/repos/${REPO}/contents/_data/events`;
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  async function loadEvents() {
+    const container = document.getElementById('events-container');
+    try {
+      const res = await fetch(EVENTS_API);
+      if (!res.ok) throw new Error('No events found');
+      const files = await res.json();
+
+      // Fetch all event files in parallel
+      const eventFiles = files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.yml') || f.name.endsWith('.yaml'));
+      if (eventFiles.length === 0) throw new Error('No events yet');
+
+      const events = await Promise.all(eventFiles.map(async f => {
+        const r = await fetch(f.download_url);
+        const text = await r.text();
+        return parseFrontmatter(text);
+      }));
+
+      // Sort by date ascending
+      events.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      // Render
+      container.innerHTML = events.map(ev => renderEvent(ev)).join('');
+
+    } catch (e) {
+      container.innerHTML = `
+        <div style="color: var(--grey); font-family: 'Barlow', sans-serif; padding: 40px 0; border-top: 1px solid var(--border);">
+          No upcoming events at this time. Check back soon.
+        </div>`;
+    }
+  }
+
+  function parseFrontmatter(text) {
+    // Parse YAML frontmatter between --- delimiters
+    const match = text.match(/^---\s*([\s\S]*?)\s*---/);
+    if (!match) return {};
+    const yaml = match[1];
+    const result = {};
+    yaml.split('\n').forEach(line => {
+      const [key, ...rest] = line.split(':');
+      if (key && rest.length) {
+        result[key.trim()] = rest.join(':').trim().replace(/^["']|["']$/g, '');
+      }
+    });
+    return result;
+  }
+
+  function renderEvent(ev) {
+    const date = ev.date ? new Date(ev.date) : null;
+    const month = date ? MONTHS[date.getMonth()] : '';
+    const day = date ? date.getDate() : '';
+    const year = date ? date.getFullYear() : '';
+    const tag = ev.tag || '';
+    const title = ev.title || 'Untitled Event';
+    const location = ev.location || '';
+
+    // Determine button style based on tag
+    const isGold = tag.toLowerCase().includes('fundraiser') || tag.toLowerCase().includes('register');
+    const btnClass = isGold ? 'btn btn-gold' : 'btn btn-ghost';
+    const btnLabel = tag.toLowerCase().includes('members') ? 'Login' :
+                     tag.toLowerCase().includes('fundraiser') ? 'Register' :
+                     tag.toLowerCase().includes('application') ? 'Apply' : 'RSVP';
+    const btnAction = tag.toLowerCase().includes('members') ? `onclick="showPage('members')"` :
+                      tag.toLowerCase().includes('fundraiser') ? `onclick="showPage('payment')"` : '';
+
+    return `
+      <div class="event-row">
+        <div class="ev-date">
+          <div class="ev-month">${month}</div>
+          <div class="ev-day">${day}</div>
+          <div class="ev-year">${year}</div>
+        </div>
+        <div>
+          <div class="ev-tag">${tag}</div>
+          <div class="ev-title">${title}</div>
+          <div class="ev-meta">${location}</div>
+        </div>
+        <button class="${btnClass}" ${btnAction}>${btnLabel}</button>
+      </div>`;
+  }
+
+  // Load events when the events page is shown
+  const _origShowPage = showPage;
+  function showPage(name) {
+    _origShowPage(name);
+    if (name === 'events') loadEvents();
+  }
+
+  // Also load if events page is active on initial load
+  document.addEventListener('DOMContentLoaded', () => {
+    if (document.getElementById('page-events').classList.contains('active')) {
+      loadEvents();
+    }
+  });
 </script>
 </body>
 </html>
