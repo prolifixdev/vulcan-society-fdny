@@ -861,7 +861,7 @@
     <a onclick="showPage('history')" id="nav-history">History</a>
     <a onclick="showPage('gallery')" id="nav-gallery">Gallery</a>
     <a onclick="showPage('members')" id="nav-members">Members</a>
-    <a onclick="showPage('events')" id="nav-events">Events</a>
+    <a onclick="showPage('events'); loadEvents()" id="nav-events">Events</a>
     <a onclick="showPage('payment')" id="nav-payment" class="nav-cta">Support Us</a>
   </div>
 </nav>
@@ -1193,7 +1193,7 @@
     <a onclick="showPage('history')">History</a>
     <a onclick="showPage('gallery')">Gallery</a>
     <a onclick="showPage('members')">Members</a>
-    <a onclick="showPage('events')">Events</a>
+    <a onclick="showPage('events'); loadEvents()">Events</a>
     <a onclick="showPage('payment')">Support</a>
   </div>
 </footer>
@@ -1305,15 +1305,14 @@
       </div>`;
   }
 
-  // Load events when the events page is shown
-  const _origShowPage = showPage;
-  function showPage(name) {
-    _origShowPage(name);
-    if (name === 'events') loadEvents();
-  }
-
-  // Also load if events page is active on initial load
+  // Hook into nav clicks to load events when Events page is shown
   document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        if (link.id === 'nav-events') setTimeout(loadEvents, 50);
+      });
+    });
+    // Also load if events page is active on initial load
     if (document.getElementById('page-events').classList.contains('active')) {
       loadEvents();
     }
