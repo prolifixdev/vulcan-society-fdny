@@ -4,8 +4,113 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Vulcan Society — Content Manager</title>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0;
+      background: #0A0A0A !important;
+      color: #F0EDE6 !important;
+      font-family: 'Barlow', sans-serif !important;
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.35); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4A017; }
+  </style>
 </head>
 <body>
   <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+  <script>
+  const THEME_CSS = `
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400;500&display=swap');
+
+    :host { --vs-black:#0A0A0A; --vs-dark:#111111; --vs-mid:#1A1A1A; --vs-card:#1E1E1E; --vs-border:#2A2A2A; --vs-maroon:#8B0000; --vs-gold:#D4A017; --vs-gold-b:#F5C842; --vs-gold-dim:rgba(212,160,23,0.15); --vs-gold-line:rgba(212,160,23,0.30); --vs-white:#F0EDE6; --vs-grey:#888888; }
+
+    * { box-sizing: border-box; }
+
+    body, #root, #nc-root { background: #0A0A0A !important; color: #F0EDE6 !important; font-family: 'Barlow', sans-serif !important; }
+
+    header { background: #8B0000 !important; border-bottom: 2px solid #D4A017 !important; }
+    header * { color: #F0EDE6 !important; font-family: 'Barlow Condensed', sans-serif !important; }
+    header a:hover, header button:hover { color: #D4A017 !important; }
+    header svg { fill: #F0EDE6 !important; }
+
+    aside, [class*="Sidebar"], [class*="sidebar"] { background: #111111 !important; border-right: 1px solid #2A2A2A !important; }
+    aside *, [class*="Sidebar"] * { color: #F0EDE6 !important; }
+    aside h2, aside h3, [class*="Sidebar"] h2, [class*="Sidebar"] h3 { font-family: 'Bebas Neue', sans-serif !important; color: #D4A017 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important; border-bottom: 1px solid rgba(212,160,23,0.3) !important; }
+    aside a, [class*="Sidebar"] a { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; text-transform: uppercase !important; color: rgba(240,237,230,0.75) !important; text-decoration: none !important; }
+    aside a:hover, [class*="Sidebar"] a:hover { color: #D4A017 !important; background: rgba(212,160,23,0.1) !important; }
+    aside a[aria-current], [class*="active"] > a, [class*="Sidebar"] a[class*="active"] { color: #D4A017 !important; background: rgba(212,160,23,0.12) !important; border-left: 3px solid #D4A017 !important; }
+
+    main, [role="main"] { background: #0A0A0A !important; }
+    main h1, main h2 { font-family: 'Bebas Neue', sans-serif !important; letter-spacing: 0.08em !important; color: #F0EDE6 !important; text-transform: uppercase !important; }
+
+    [class*="ListCard"], [class*="EntryCard"], ul li { background: #1E1E1E !important; border-color: #2A2A2A !important; color: #F0EDE6 !important; }
+    [class*="ListCard"]:hover, [class*="EntryCard"]:hover, ul li:hover { border-color: #D4A017 !important; }
+    [class*="ListCard"] *, [class*="EntryCard"] * { color: #F0EDE6 !important; }
+
+    button { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; letter-spacing: 0.08em !important; cursor: pointer !important; }
+
+    input, textarea, select { background: #1A1A1A !important; border: 1px solid #2A2A2A !important; color: #F0EDE6 !important; border-radius: 4px !important; font-family: 'Barlow', sans-serif !important; font-size: 14px !important; padding: 9px 12px !important; }
+    input:focus, textarea:focus, select:focus { border-color: #D4A017 !important; outline: none !important; box-shadow: 0 0 0 3px rgba(212,160,23,0.15) !important; }
+    input::placeholder, textarea::placeholder { color: #555 !important; }
+    label { font-family: 'Barlow Condensed', sans-serif !important; font-weight: 700 !important; font-size: 11px !important; letter-spacing: 0.15em !important; text-transform: uppercase !important; color: #D4A017 !important; }
+
+    [style*="background-color: rgb(255"],[style*="background-color: white"],[style*="background: white"],[style*="background-color: rgb(241"],[style*="background-color: rgb(242"],[style*="background-color: rgb(243"],[style*="background-color: rgb(244"],[style*="background-color: rgb(245"],[style*="background-color: rgb(246"],[style*="background-color: rgb(247"],[style*="background-color: rgb(248"],[style*="background-color: rgb(249"],[style*="background-color: rgb(250"],[style*="background-color: rgb(251"],[style*="background-color: rgb(252"],[style*="background-color: rgb(253"],[style*="background-color: rgb(254"] { background-color: #1E1E1E !important; color: #F0EDE6 !important; }
+
+    [style*="color: rgb(0, 0"],[style*="color: black"],[style*="color: #000"] { color: #F0EDE6 !important; }
+
+    a { color: #D4A017 !important; text-decoration: none !important; }
+    a:hover { color: #F5C842 !important; }
+
+    [role="dialog"], [role="alertdialog"] { background: #1E1E1E !important; border: 1px solid rgba(212,160,23,0.3) !important; color: #F0EDE6 !important; }
+
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #111; }
+    ::-webkit-scrollbar-thumb { background: rgba(212,160,23,0.3); border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4A017; }
+
+    hr { border: none !important; border-top: 1px solid rgba(212,160,23,0.2) !important; }
+    *:focus-visible { outline: 2px solid #D4A017 !important; }
+    input[type="checkbox"], input[type="radio"] { accent-color: #D4A017 !important; }
+  `;
+
+  function injectTheme() {
+    // Inject into main document
+    if (!document.getElementById('vs-outer')) {
+      const s = document.createElement('style');
+      s.id = 'vs-outer';
+      s.textContent = THEME_CSS;
+      document.head.appendChild(s);
+    }
+
+    // Inject into every Shadow Root found
+    function pierce(node) {
+      if (node.shadowRoot) {
+        const root = node.shadowRoot;
+        if (!root.querySelector('#vs-shadow')) {
+          const s = document.createElement('style');
+          s.id = 'vs-shadow';
+          s.textContent = THEME_CSS;
+          root.insertBefore(s, root.firstChild);
+        }
+        pierce(root);
+      }
+      for (const child of node.children || []) pierce(child);
+    }
+
+    pierce(document.documentElement);
+  }
+
+  // Inject at multiple intervals to catch lazy-mounted components
+  injectTheme();
+  [200, 500, 1000, 2000, 4000].forEach(t => setTimeout(injectTheme, t));
+
+  // Watch for new nodes being added
+  new MutationObserver(injectTheme).observe(document.documentElement, {
+    childList: true, subtree: true
+  });
+  </script>
 </body>
 </html>
