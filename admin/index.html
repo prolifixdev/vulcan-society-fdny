@@ -117,27 +117,88 @@
 
     /* Force ALL divs that somehow got white background dark */
     div { background-color: inherit; }
+
+    /* ── EDITOR / ENTRY FORM PANEL ── */
+    /* The right-side editor pane and its split layout */
+    [class*="EditorContainer"], [class*="editor-container"],
+    [class*="ControlPane"], [class*="control-pane"],
+    [class*="EditorContent"], [class*="editor-content"],
+    [class*="EditorInterface"], [class*="editor-interface"],
+    [class*="EditorToggle"], [class*="editor-toggle"],
+    [class*="PreviewPane"], [class*="preview-pane"],
+    [class*="SplitPane"], [class*="split-pane"] {
+      background: #0A0A0A !important;
+      color: #F0EDE6 !important;
+    }
+
+    /* Editor top toolbar (Published / Save bar) */
+    [class*="ToolbarContainer"], [class*="toolbar-container"],
+    [class*="EditorToolbar"], [class*="editor-toolbar"],
+    [class*="AppHeader"], [class*="app-header"],
+    [class*="TopBar"], [class*="top-bar"],
+    [class*="NavBar"], [class*="nav-bar"] {
+      background: #8B0000 !important;
+      border-bottom: 2px solid #D4A017 !important;
+      color: #F0EDE6 !important;
+    }
+    [class*="ToolbarContainer"] *, [class*="EditorToolbar"] *,
+    [class*="AppHeader"] *, [class*="TopBar"] * {
+      color: #F0EDE6 !important;
+    }
+
+    /* "Published" status badge */
+    [class*="published"], [class*="Published"] {
+      color: #2ecc71 !important;
+      border-color: #2ecc71 !important;
+    }
+
+    /* "CHANGES SAVED" green text */
+    [class*="saved"], [class*="Saved"] {
+      color: #2ecc71 !important;
+    }
+
+    /* Save / Publish button in editor toolbar */
+    [class*="ToolbarContainer"] button[class*="primary"],
+    [class*="EditorToolbar"] button[class*="primary"] {
+      background: #D4A017 !important;
+      color: #0A0A0A !important;
+      border: none !important;
+      font-family: 'Bebas Neue', sans-serif !important;
+    }
+
+    /* Editor preview right panel (white half) */
+    [class*="PreviewContainer"], [class*="preview-container"],
+    [class*="EditorPreview"], [class*="editor-preview"],
+    [class*="Preview"], iframe {
+      background: #111111 !important;
+    }
+
+    /* Every direct child of body that could be a panel */
+    body > div { background: #0A0A0A !important; }
+
+    /* Catch-all: any remaining white panels */
+    section, article { background: #0A0A0A !important; color: #F0EDE6 !important; }
   `;
 
   function injectTheme() {
-    // Inject into main document
-    if (!document.getElementById('vs-outer')) {
-      const s = document.createElement('style');
-      s.id = 'vs-outer';
-      s.textContent = THEME_CSS;
-      document.head.appendChild(s);
-    }
+    // Always re-inject into main document (remove and re-add to pick up new elements)
+    const existing = document.getElementById('vs-outer');
+    if (existing) existing.remove();
+    const s = document.createElement('style');
+    s.id = 'vs-outer';
+    s.textContent = THEME_CSS;
+    document.head.appendChild(s);
 
-    // Inject into every Shadow Root found
+    // Inject into every Shadow Root found — always replace to stay fresh
     function pierce(node) {
       if (node.shadowRoot) {
         const root = node.shadowRoot;
-        if (!root.querySelector('#vs-shadow')) {
-          const s = document.createElement('style');
-          s.id = 'vs-shadow';
-          s.textContent = THEME_CSS;
-          root.insertBefore(s, root.firstChild);
-        }
+        const old = root.querySelector('#vs-shadow');
+        if (old) old.remove();
+        const sh = document.createElement('style');
+        sh.id = 'vs-shadow';
+        sh.textContent = THEME_CSS;
+        root.insertBefore(sh, root.firstChild);
         pierce(root);
       }
       for (const child of node.children || []) pierce(child);
@@ -148,12 +209,20 @@
 
   // Inject at multiple intervals to catch lazy-mounted components
   injectTheme();
-  [200, 500, 1000, 2000, 4000].forEach(t => setTimeout(injectTheme, t));
+  [100, 300, 600, 1000, 2000, 4000, 8000].forEach(t => setTimeout(injectTheme, t));
 
-  // Watch for new nodes being added
-  new MutationObserver(injectTheme).observe(document.documentElement, {
-    childList: true, subtree: true
+  // Re-inject on every hash change (Decap uses hash routing — new route = new components)
+  window.addEventListener('hashchange', () => {
+    injectTheme();
+    [100, 300, 600, 1200, 2500].forEach(t => setTimeout(injectTheme, t));
   });
+
+  // Watch for new nodes being added — throttled to avoid thrashing
+  let throttle;
+  new MutationObserver(() => {
+    clearTimeout(throttle);
+    throttle = setTimeout(injectTheme, 150);
+  }).observe(document.documentElement, { childList: true, subtree: true });
   </script>
 </body>
 </html>
