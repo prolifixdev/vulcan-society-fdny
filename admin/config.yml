@@ -5,6 +5,11 @@ backend:
 media_folder: "images/uploads"
 public_folder: "/images/uploads"
 
+# Vulcan Society Branding
+display_url: https://dainty-tiramisu-7d2636.netlify.app
+logo_url: /vulcansnewyork.jpg
+custom_css: /cms-brand.css
+
 collections:
   - name: "events"
     label: "Events"
