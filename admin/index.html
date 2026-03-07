@@ -74,6 +74,49 @@
     hr { border: none !important; border-top: 1px solid rgba(212,160,23,0.2) !important; }
     *:focus-visible { outline: 2px solid #D4A017 !important; }
     input[type="checkbox"], input[type="radio"] { accent-color: #D4A017 !important; }
+
+    /* ── COLLECTION HEADER (the white box with title + New button) ── */
+    /* Decap renders this as a top-level div before the list */
+    main > div, main > section,
+    [class*="CollectionHeader"], [class*="collection-header"],
+    [class*="PageHeader"], [class*="page-header"],
+    [class*="Toolbar"], [class*="toolbar"] {
+      background: #111111 !important;
+      border-bottom: 1px solid rgba(212,160,23,0.25) !important;
+      color: #F0EDE6 !important;
+    }
+
+    /* The title text inside that header */
+    [class*="CollectionHeader"] h1, [class*="CollectionHeader"] h2,
+    [class*="PageHeader"] h1, [class*="PageHeader"] h2,
+    main > div > h1, main > div > h2,
+    main > section > h1, main > section > h2 {
+      font-family: 'Bebas Neue', sans-serif !important;
+      color: #F0EDE6 !important;
+      letter-spacing: 0.1em !important;
+      text-transform: uppercase !important;
+    }
+
+    /* "New Events" button — make it gold */
+    [class*="CollectionHeader"] button,
+    [class*="PageHeader"] button,
+    main > div > button,
+    main > section > button,
+    [class*="Toolbar"] button:last-child {
+      background: #D4A017 !important;
+      color: #0A0A0A !important;
+      border: none !important;
+      font-family: 'Bebas Neue', sans-serif !important;
+      font-size: 16px !important;
+      letter-spacing: 0.1em !important;
+      border-radius: 4px !important;
+      padding: 10px 20px !important;
+    }
+    [class*="CollectionHeader"] button:hover,
+    main > div > button:hover { background: #F5C842 !important; }
+
+    /* Force ALL divs that somehow got white background dark */
+    div { background-color: inherit; }
   `;
 
   function injectTheme() {
