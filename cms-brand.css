@@ -1,0 +1,726 @@
+/* ============================================================
+   VULCAN SOCIETY FDNY — DECAP CMS CUSTOM THEME
+   Dark Editorial | Gold Accents | Bebas Neue + Barlow
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@300;400;700;900&family=Barlow:wght@300;400;500&display=swap');
+
+:root {
+  --vs-black:      #0A0A0A;
+  --vs-dark:       #111111;
+  --vs-mid:        #1A1A1A;
+  --vs-card:       #1E1E1E;
+  --vs-border:     #2A2A2A;
+  --vs-maroon:     #8B0000;
+  --vs-maroon-d:   #6B0000;
+  --vs-red:        #C0162C;
+  --vs-gold:       #D4A017;
+  --vs-gold-b:     #F5C842;
+  --vs-gold-dim:   rgba(212,160,23,0.15);
+  --vs-gold-line:  rgba(212,160,23,0.30);
+  --vs-white:      #F0EDE6;
+  --vs-grey:       #888888;
+  --vs-grey-d:     #555555;
+}
+
+/* ============================================================
+   GLOBAL RESET + BASE
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body,
+#nc-root,
+.nc-app-main {
+  background: var(--vs-black) !important;
+  color: var(--vs-white) !important;
+  font-family: 'Barlow', sans-serif !important;
+}
+
+/* ============================================================
+   TOP NAV BAR
+   ============================================================ */
+
+header,
+[class*="AppHeader"],
+nav[class*="header"],
+div[class*="Toolbar"] {
+  background: var(--vs-maroon) !important;
+  border-bottom: 2px solid var(--vs-gold) !important;
+  padding: 0 24px !important;
+  min-height: 56px !important;
+}
+
+/* Logo area — inject Vulcan Society name via CSS content */
+[class*="AppHeaderTitle"],
+[class*="brand"],
+[class*="Logo"] {
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 22px !important;
+  letter-spacing: 0.08em !important;
+  color: var(--vs-gold) !important;
+  text-transform: uppercase !important;
+}
+
+/* Nav links in header */
+header a,
+header button,
+[class*="AppHeader"] a,
+[class*="AppHeader"] button {
+  color: var(--vs-white) !important;
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+  font-size: 13px !important;
+  opacity: 0.85;
+  transition: color 0.2s, opacity 0.2s !important;
+}
+
+header a:hover,
+header button:hover,
+[class*="AppHeader"] a:hover {
+  color: var(--vs-gold) !important;
+  opacity: 1 !important;
+}
+
+/* Active nav item */
+header a[class*="active"],
+[class*="AppHeader"] a[class*="active"] {
+  color: var(--vs-gold) !important;
+  border-bottom: 2px solid var(--vs-gold) !important;
+  opacity: 1 !important;
+}
+
+/* ============================================================
+   SIDEBAR / COLLECTIONS PANEL
+   ============================================================ */
+
+[class*="Sidebar"],
+aside,
+nav[class*="Collection"],
+[class*="collection-nav"] {
+  background: var(--vs-dark) !important;
+  border-right: 1px solid var(--vs-border) !important;
+}
+
+/* Sidebar heading */
+[class*="Sidebar"] h2,
+[class*="Sidebar"] h3,
+[class*="collections-label"] {
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 18px !important;
+  letter-spacing: 0.1em !important;
+  color: var(--vs-gold) !important;
+  text-transform: uppercase !important;
+  padding: 16px 20px 8px !important;
+  border-bottom: 1px solid var(--vs-gold-line) !important;
+}
+
+/* Collection list items */
+[class*="Sidebar"] li,
+[class*="NavLink"],
+[class*="collection-item"] {
+  border-bottom: 1px solid var(--vs-border) !important;
+}
+
+[class*="Sidebar"] a,
+[class*="NavLink"] a,
+[class*="collection-item"] a {
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 14px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  color: var(--vs-white) !important;
+  padding: 12px 20px !important;
+  display: block !important;
+  transition: background 0.15s, color 0.15s !important;
+}
+
+[class*="Sidebar"] a:hover,
+[class*="NavLink"] a:hover {
+  background: var(--vs-gold-dim) !important;
+  color: var(--vs-gold) !important;
+}
+
+[class*="Sidebar"] a[class*="active"],
+[class*="NavLink"] a[class*="active"] {
+  background: var(--vs-gold-dim) !important;
+  color: var(--vs-gold) !important;
+  border-left: 3px solid var(--vs-gold) !important;
+}
+
+/* Search box in sidebar */
+[class*="Sidebar"] input[type="text"],
+[class*="search"] input {
+  background: var(--vs-mid) !important;
+  border: 1px solid var(--vs-border) !important;
+  color: var(--vs-white) !important;
+  border-radius: 4px !important;
+  padding: 8px 12px !important;
+  font-family: 'Barlow', sans-serif !important;
+  font-size: 13px !important;
+  width: 100% !important;
+}
+
+[class*="Sidebar"] input[type="text"]:focus,
+[class*="search"] input:focus {
+  border-color: var(--vs-gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 2px var(--vs-gold-dim) !important;
+}
+
+/* ============================================================
+   MAIN CONTENT AREA
+   ============================================================ */
+
+main,
+[class*="MainView"],
+[class*="PageMain"],
+[class*="content-main"] {
+  background: var(--vs-black) !important;
+}
+
+/* Page titles / collection headers */
+[class*="CollectionHeader"],
+[class*="PageHeader"],
+h1, h2 {
+  font-family: 'Bebas Neue', sans-serif !important;
+  letter-spacing: 0.08em !important;
+  color: var(--vs-white) !important;
+  text-transform: uppercase !important;
+}
+
+h1 { font-size: 32px !important; }
+h2 { font-size: 24px !important; }
+
+/* Gold underline accent on page title */
+[class*="CollectionHeader"] h2::after,
+[class*="PageHeader"] h1::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 3px;
+  background: var(--vs-gold);
+  margin-top: 6px;
+}
+
+/* ============================================================
+   ENTRY LIST CARDS
+   ============================================================ */
+
+[class*="ListCard"],
+[class*="EntryCard"],
+[class*="entry-card"],
+[class*="list-item"] {
+  background: var(--vs-card) !important;
+  border: 1px solid var(--vs-border) !important;
+  border-radius: 6px !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+  margin-bottom: 8px !important;
+}
+
+[class*="ListCard"]:hover,
+[class*="EntryCard"]:hover,
+[class*="entry-card"]:hover {
+  border-color: var(--vs-gold) !important;
+  box-shadow: 0 0 0 1px var(--vs-gold-dim) !important;
+}
+
+[class*="ListCard"] *,
+[class*="EntryCard"] * {
+  color: var(--vs-white) !important;
+  font-family: 'Barlow', sans-serif !important;
+}
+
+/* Entry title in list */
+[class*="card-title"],
+[class*="ListCard"] strong,
+[class*="EntryCard"] strong,
+[class*="entry-title"] {
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  letter-spacing: 0.03em !important;
+  color: var(--vs-white) !important;
+}
+
+/* ============================================================
+   BUTTONS
+   ============================================================ */
+
+/* Primary / New Entry button */
+button[class*="primary"],
+[class*="button-primary"],
+button[class*="add"],
+[class*="new-entry"] button,
+button[data-testid*="new"],
+[class*="CollectionHeader"] button {
+  background: var(--vs-gold) !important;
+  color: var(--vs-black) !important;
+  border: none !important;
+  border-radius: 4px !important;
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 16px !important;
+  letter-spacing: 0.1em !important;
+  padding: 10px 22px !important;
+  cursor: pointer !important;
+  transition: background 0.2s, transform 0.1s !important;
+}
+
+button[class*="primary"]:hover,
+[class*="button-primary"]:hover,
+[class*="new-entry"] button:hover {
+  background: var(--vs-gold-b) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Secondary / cancel buttons */
+button[class*="secondary"],
+[class*="button-secondary"],
+button[class*="cancel"] {
+  background: transparent !important;
+  color: var(--vs-gold) !important;
+  border: 1px solid var(--vs-gold) !important;
+  border-radius: 4px !important;
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  padding: 8px 18px !important;
+  cursor: pointer !important;
+  transition: background 0.2s !important;
+}
+
+button[class*="secondary"]:hover,
+button[class*="cancel"]:hover {
+  background: var(--vs-gold-dim) !important;
+}
+
+/* Save / Publish button (maroon) */
+button[class*="publish"],
+button[class*="save"],
+[class*="Publish"] button,
+[class*="Save"] button {
+  background: var(--vs-maroon) !important;
+  color: var(--vs-white) !important;
+  border: 1px solid var(--vs-gold) !important;
+  border-radius: 4px !important;
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 16px !important;
+  letter-spacing: 0.1em !important;
+  padding: 10px 22px !important;
+  cursor: pointer !important;
+  transition: background 0.2s !important;
+}
+
+button[class*="publish"]:hover,
+button[class*="save"]:hover {
+  background: var(--vs-maroon-d) !important;
+}
+
+/* Delete buttons */
+button[class*="delete"],
+[class*="delete"] button {
+  background: transparent !important;
+  color: var(--vs-red) !important;
+  border: 1px solid var(--vs-red) !important;
+  border-radius: 4px !important;
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  padding: 8px 16px !important;
+  cursor: pointer !important;
+  transition: background 0.2s !important;
+}
+
+button[class*="delete"]:hover {
+  background: rgba(192,22,44,0.15) !important;
+}
+
+/* ============================================================
+   EDITOR FORM FIELDS
+   ============================================================ */
+
+/* Form wrapper */
+[class*="EditorContainer"],
+[class*="ControlPane"],
+[class*="editor-container"] {
+  background: var(--vs-black) !important;
+}
+
+/* Field labels */
+label,
+[class*="FieldLabel"],
+[class*="label"] {
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 12px !important;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase !important;
+  color: var(--vs-gold) !important;
+  margin-bottom: 6px !important;
+  display: block !important;
+}
+
+/* Text inputs */
+input[type="text"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="date"],
+input[type="datetime-local"],
+textarea,
+select,
+[class*="TextControl"] input,
+[class*="StringControl"] input {
+  background: var(--vs-mid) !important;
+  border: 1px solid var(--vs-border) !important;
+  border-radius: 4px !important;
+  color: var(--vs-white) !important;
+  font-family: 'Barlow', sans-serif !important;
+  font-size: 14px !important;
+  padding: 10px 14px !important;
+  width: 100% !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--vs-gold) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px var(--vs-gold-dim) !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--vs-grey-d) !important;
+}
+
+/* Textarea */
+textarea {
+  min-height: 120px !important;
+  resize: vertical !important;
+}
+
+/* Select dropdown */
+select {
+  appearance: none !important;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23D4A017'/%3E%3C/svg%3E") !important;
+  background-repeat: no-repeat !important;
+  background-position: right 12px center !important;
+  padding-right: 32px !important;
+}
+
+/* Date picker */
+input[type="date"],
+input[type="datetime-local"] {
+  color-scheme: dark !important;
+}
+
+/* ============================================================
+   RICH TEXT / MARKDOWN EDITOR
+   ============================================================ */
+
+[class*="MarkdownEditor"],
+[class*="RichTextEditor"],
+[class*="editor-preview"],
+.CodeMirror,
+.cm-editor {
+  background: var(--vs-mid) !important;
+  border: 1px solid var(--vs-border) !important;
+  border-radius: 4px !important;
+  color: var(--vs-white) !important;
+  font-family: 'Barlow', sans-serif !important;
+}
+
+[class*="MarkdownEditor"] *,
+[class*="RichTextEditor"] * {
+  color: var(--vs-white) !important;
+}
+
+/* Markdown toolbar */
+[class*="MarkdownEditor"] [class*="toolbar"],
+[class*="RichTextEditor"] [class*="toolbar"] {
+  background: var(--vs-card) !important;
+  border-bottom: 1px solid var(--vs-gold-line) !important;
+}
+
+[class*="toolbar"] button {
+  color: var(--vs-grey) !important;
+  background: transparent !important;
+  border: none !important;
+  padding: 6px 8px !important;
+  cursor: pointer !important;
+  transition: color 0.15s !important;
+}
+
+[class*="toolbar"] button:hover {
+  color: var(--vs-gold) !important;
+  background: var(--vs-gold-dim) !important;
+}
+
+/* ============================================================
+   MEDIA / FILE UPLOAD
+   ============================================================ */
+
+[class*="MediaLibrary"],
+[class*="media-library"] {
+  background: var(--vs-dark) !important;
+}
+
+[class*="DropZone"],
+[class*="dropzone"],
+[class*="upload-control"] {
+  background: var(--vs-mid) !important;
+  border: 2px dashed var(--vs-border) !important;
+  border-radius: 6px !important;
+  color: var(--vs-grey) !important;
+  transition: border-color 0.2s !important;
+}
+
+[class*="DropZone"]:hover,
+[class*="dropzone"]:hover {
+  border-color: var(--vs-gold) !important;
+  background: var(--vs-gold-dim) !important;
+  color: var(--vs-white) !important;
+}
+
+/* Media grid cards */
+[class*="MediaCard"],
+[class*="media-card"] {
+  background: var(--vs-card) !important;
+  border: 1px solid var(--vs-border) !important;
+  border-radius: 6px !important;
+  transition: border-color 0.2s !important;
+}
+
+[class*="MediaCard"]:hover {
+  border-color: var(--vs-gold) !important;
+}
+
+[class*="MediaCard"][class*="selected"],
+[class*="media-card"][class*="selected"] {
+  border-color: var(--vs-gold) !important;
+  box-shadow: 0 0 0 2px var(--vs-gold) !important;
+}
+
+/* ============================================================
+   MODALS & DIALOGS
+   ============================================================ */
+
+[class*="Modal"],
+[class*="modal"],
+[class*="Dialog"],
+[role="dialog"] {
+  background: var(--vs-card) !important;
+  border: 1px solid var(--vs-gold-line) !important;
+  border-radius: 8px !important;
+  color: var(--vs-white) !important;
+}
+
+[class*="ModalHeader"],
+[class*="modal-header"] {
+  background: var(--vs-maroon) !important;
+  border-bottom: 2px solid var(--vs-gold) !important;
+  padding: 16px 20px !important;
+}
+
+[class*="ModalHeader"] h2,
+[class*="modal-header"] h2 {
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-size: 20px !important;
+  letter-spacing: 0.1em !important;
+  color: var(--vs-gold) !important;
+}
+
+/* Modal overlay */
+[class*="Overlay"],
+[class*="overlay"] {
+  background: rgba(0, 0, 0, 0.85) !important;
+}
+
+/* ============================================================
+   NOTIFICATIONS / TOASTS
+   ============================================================ */
+
+[class*="Toast"],
+[class*="Notification"],
+[class*="notification"] {
+  background: var(--vs-card) !important;
+  border-left: 4px solid var(--vs-gold) !important;
+  color: var(--vs-white) !important;
+  font-family: 'Barlow', sans-serif !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.6) !important;
+}
+
+[class*="Toast"][class*="error"],
+[class*="Notification"][class*="error"] {
+  border-left-color: var(--vs-red) !important;
+}
+
+[class*="Toast"][class*="success"],
+[class*="Notification"][class*="success"] {
+  border-left-color: #2ecc71 !important;
+}
+
+/* ============================================================
+   SCROLLBARS (webkit)
+   ============================================================ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vs-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vs-gold-dim);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--vs-gold);
+}
+
+/* ============================================================
+   LOADING STATES
+   ============================================================ */
+
+[class*="Loader"],
+[class*="loading"],
+[class*="spinner"] {
+  color: var(--vs-gold) !important;
+  border-color: var(--vs-gold) !important;
+}
+
+/* ============================================================
+   WORKFLOW STATUS BADGES
+   ============================================================ */
+
+[class*="badge"],
+[class*="status"],
+[class*="Badge"] {
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-weight: 700 !important;
+  font-size: 11px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  border-radius: 3px !important;
+  padding: 2px 8px !important;
+}
+
+[class*="draft"] {
+  background: var(--vs-border) !important;
+  color: var(--vs-grey) !important;
+}
+
+[class*="published"] {
+  background: rgba(46,204,113,0.15) !important;
+  color: #2ecc71 !important;
+}
+
+/* ============================================================
+   SORT / FILTER CONTROLS
+   ============================================================ */
+
+[class*="SortControl"],
+[class*="ViewControls"],
+[class*="sort-by"] {
+  color: var(--vs-grey) !important;
+  font-family: 'Barlow Condensed', sans-serif !important;
+  font-size: 13px !important;
+  letter-spacing: 0.05em !important;
+}
+
+[class*="SortControl"] button:hover,
+[class*="ViewControls"] button:hover {
+  color: var(--vs-gold) !important;
+}
+
+/* Grid/List toggle buttons */
+[class*="ViewControls"] button,
+[class*="view-toggle"] button {
+  color: var(--vs-grey-d) !important;
+  background: transparent !important;
+  border: none !important;
+  transition: color 0.15s !important;
+}
+
+[class*="ViewControls"] button[class*="active"],
+[class*="view-toggle"] button[class*="active"] {
+  color: var(--vs-gold) !important;
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITIES
+   ============================================================ */
+
+p, span, div {
+  font-family: 'Barlow', sans-serif !important;
+}
+
+a {
+  color: var(--vs-gold) !important;
+  text-decoration: none !important;
+}
+
+a:hover {
+  color: var(--vs-gold-b) !important;
+  text-decoration: underline !important;
+}
+
+/* ============================================================
+   GOLD DIVIDER ACCENTS
+   ============================================================ */
+
+hr,
+[class*="divider"],
+[class*="Divider"] {
+  border: none !important;
+  border-top: 1px solid var(--vs-gold-line) !important;
+  margin: 16px 0 !important;
+}
+
+/* ============================================================
+   CHECKBOX & RADIO
+   ============================================================ */
+
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--vs-gold) !important;
+}
+
+/* ============================================================
+   QUICK ADD DROPDOWN
+   ============================================================ */
+
+[class*="QuickAdd"],
+[class*="quick-add"],
+[class*="Dropdown"] {
+  background: var(--vs-card) !important;
+  border: 1px solid var(--vs-gold-line) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.6) !important;
+}
+
+[class*="Dropdown"] li,
+[class*="QuickAdd"] li {
+  color: var(--vs-white) !important;
+  font-family: 'Barlow', sans-serif !important;
+  padding: 10px 16px !important;
+  cursor: pointer !important;
+  transition: background 0.15s !important;
+}
+
+[class*="Dropdown"] li:hover,
+[class*="QuickAdd"] li:hover {
+  background: var(--vs-gold-dim) !important;
+  color: var(--vs-gold) !important;
+}
