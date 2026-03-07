@@ -178,6 +178,89 @@
 
     /* Catch-all: any remaining white panels */
     section, article { background: #0A0A0A !important; color: #F0EDE6 !important; }
+
+    /* ── PHOTO / IMAGE UPLOAD WIDGET ── */
+    [class*="FileControl"], [class*="file-control"],
+    [class*="ImageControl"], [class*="image-control"],
+    [class*="UploadControl"], [class*="upload-control"],
+    [class*="FileWidget"], [class*="file-widget"],
+    [class*="ImageWidget"], [class*="image-widget"] {
+      background: #1A1A1A !important;
+      border: 1px solid #2A2A2A !important;
+      border-radius: 4px !important;
+      color: #F0EDE6 !important;
+    }
+
+    /* The white box that wraps "Choose an image" / "Insert from URL" */
+    [class*="FileControl"] > div,
+    [class*="ImageControl"] > div,
+    [class*="UploadControl"] > div,
+    [class*="image-control"] > div {
+      background: #1A1A1A !important;
+      border: none !important;
+    }
+
+    /* "Choose an image" and "Insert from URL" buttons/links */
+    [class*="FileControl"] button,
+    [class*="ImageControl"] button,
+    [class*="UploadControl"] button,
+    [class*="FileControl"] a,
+    [class*="ImageControl"] a,
+    [class*="image-control"] button,
+    [class*="image-control"] a {
+      background: transparent !important;
+      color: #D4A017 !important;
+      border: 1px solid rgba(212,160,23,0.4) !important;
+      border-radius: 4px !important;
+      font-family: 'Barlow Condensed', sans-serif !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.06em !important;
+      padding: 6px 14px !important;
+      text-decoration: none !important;
+    }
+    [class*="FileControl"] button:hover,
+    [class*="ImageControl"] button:hover,
+    [class*="image-control"] button:hover {
+      background: rgba(212,160,23,0.1) !important;
+    }
+
+    /* ── PUBLISH BUTTON (teal → gold) ── */
+    /* Targets the main Publish/Save button in the editor top bar */
+    [class*="ToolbarContainer"] button,
+    [class*="EditorToolbar"] button,
+    header button[class*="success"],
+    header button[class*="publish"],
+    header button[style*="background-color: rgb(0, 200"],
+    header button[style*="background-color: rgb(0, 150"],
+    header button[style*="background-color: rgb(32, 156"],
+    header button[style*="background-color: rgb(20"],
+    button[class*="Publish"],
+    button[class*="publish"] {
+      background: #D4A017 !important;
+      color: #0A0A0A !important;
+      border: none !important;
+      font-family: 'Bebas Neue', sans-serif !important;
+      font-size: 16px !important;
+      letter-spacing: 0.1em !important;
+    }
+
+    /* Teal/cyan color override — catch any teal by its RGB values */
+    [style*="background-color: rgb(0, 1"],
+    [style*="background-color: rgb(0, 2"],
+    [style*="background-color: rgb(32, 1"],
+    [style*="background-color: teal"],
+    [style*="background-color: cyan"] {
+      background-color: #D4A017 !important;
+      color: #0A0A0A !important;
+    }
+
+    /* Blue links → gold */
+    [style*="color: rgb(0, 0, 2"],
+    [style*="color: rgb(0, 1"],
+    [style*="color: blue"],
+    [style*="color: teal"] {
+      color: #D4A017 !important;
+    }
   `;
 
   function injectTheme() {
