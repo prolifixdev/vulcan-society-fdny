@@ -340,14 +340,50 @@
   window.addEventListener('hashchange', () => {
     injectTheme();
     [100, 300, 600, 1200, 2500].forEach(t => setTimeout(injectTheme, t));
+    patchElements();
   });
 
   // Watch for new nodes being added — throttled to avoid thrashing
   let throttle;
   new MutationObserver(() => {
     clearTimeout(throttle);
-    throttle = setTimeout(injectTheme, 150);
+    throttle = setTimeout(() => { injectTheme(); patchElements(); }, 150);
   }).observe(document.documentElement, { childList: true, subtree: true });
+
+  // ── DIRECT DOM PATCHER ──
+  // Forcibly overwrite inline styles that CSS cannot override
+  function patchElements() {
+    // Kill all white/light backgrounds directly
+    document.querySelectorAll('*').forEach(el => {
+      const bg = window.getComputedStyle(el).backgroundColor;
+      if (bg) {
+        const match = bg.match(/rgb\((\d+),\s*(\d+),\s*(\d+)\)/);
+        if (match) {
+          const [r, g, b] = [+match[1], +match[2], +match[3]];
+          // If it's white or near-white (all channels > 200)
+          if (r > 200 && g > 200 && b > 200) {
+            el.style.setProperty('background-color', '#1A1A1A', 'important');
+            el.style.setProperty('color', '#F0EDE6', 'important');
+          }
+        }
+      }
+      // Fix teal/green Publish button
+      const elBg = el.style.backgroundColor;
+      if (elBg && (
+        elBg.includes('rgb(0, 1') || elBg.includes('rgb(0, 2') ||
+        elBg.includes('rgb(32') || elBg.includes('rgb(20, 1') ||
+        elBg.includes('teal') || elBg.includes('green') ||
+        elBg.includes('rgb(0, 150') || elBg.includes('rgb(0, 200') ||
+        elBg.includes('rgb(38, 1') || elBg.includes('rgb(26, 1')
+      ) && el.tagName === 'BUTTON') {
+        el.style.setProperty('background-color', '#D4A017', 'important');
+        el.style.setProperty('color', '#0A0A0A', 'important');
+      }
+    });
+  }
+
+  // Run patcher at intervals too
+  [300, 700, 1500, 3000, 6000].forEach(t => setTimeout(patchElements, t));
   </script>
 </body>
 </html>
