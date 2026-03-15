@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Vulcan Society FDNY</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:ital,wght@0,300;0,400;0,700;0,900;1,700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
-<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <style>
   :root {
     --black: #0A0A0A;
@@ -540,69 +539,6 @@
     color: var(--grey);
   }
 
-  /* ===== LIGHTBOX ===== */
-  .lightbox-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.92);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    animation: lbFadeIn 0.2s ease;
-  }
-  .lightbox-overlay.open { display: flex; }
-  @keyframes lbFadeIn { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes lbScaleIn { from { transform: scale(0.95); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-  .lightbox-box {
-    background: #161616;
-    border: 1px solid var(--border);
-    max-width: 640px;
-    width: 90%;
-    padding: 48px;
-    position: relative;
-    animation: lbScaleIn 0.25s ease;
-  }
-  .lightbox-close {
-    position: absolute;
-    top: 20px; right: 20px;
-    background: none;
-    border: 1px solid #333;
-    color: var(--grey);
-    width: 36px; height: 36px;
-    cursor: pointer;
-    font-size: 1rem;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.2s;
-  }
-  .lightbox-close:hover { border-color: var(--gold); color: var(--gold); }
-  .lb-cat {
-    font-family: 'Barlow Condensed', sans-serif;
-    font-size: 0.65rem;
-    font-weight: 700;
-    letter-spacing: 0.3em;
-    color: var(--gold);
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .lb-photo {
-    width: 100%;
-    max-height: 320px;
-    object-fit: cover;
-    margin-bottom: 24px;
-    display: none;
-  }
-  .lb-photo.visible { display: block; }
-  .lb-emoji { font-size: 4rem; display: block; margin-bottom: 24px; opacity: 0.7; }
-  .lb-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.4rem;
-    letter-spacing: 0.05em;
-    color: var(--white);
-    margin-bottom: 12px;
-  }
-  .lb-caption { font-size: 0.9rem; color: var(--grey); line-height: 1.7; }
-
   /* ===== MEMBERS ===== */
   .members-layout {
     display: grid;
@@ -906,6 +842,407 @@
   }
 
   .footer-right a:hover { color: var(--gold); }
+
+  /* ===== HAMBURGER MENU ===== */
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 20px;
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    border: none;
+    z-index: 1000;
+  }
+
+  .hamburger span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--white);
+    transition: all 0.3s ease;
+    transform-origin: center;
+  }
+
+  .hamburger.open span:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+
+  .hamburger.open span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .hamburger.open span:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+  /* ===== TABLET (≤900px) ===== */
+  @media (max-width: 900px) {
+    /* Nav */
+    nav {
+      padding: 0 32px;
+    }
+
+    .nav-links a {
+      font-size: 0.72rem;
+      padding: 6px 10px;
+    }
+
+    /* Hero */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .hero-right {
+      min-height: 320px;
+    }
+
+    .hero-left {
+      padding: 60px 40px;
+    }
+
+    .hero-emblem-wrap img {
+      width: 200px;
+      height: 200px;
+    }
+
+    /* Stat bar */
+    .stat-item {
+      padding: 24px 36px;
+    }
+
+    /* Pillars */
+    .pillars {
+      padding: 80px 40px;
+    }
+
+    .pillars-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* History */
+    .history-content {
+      padding: 60px 40px;
+      gap: 48px;
+    }
+
+    /* Gallery */
+    .gallery-header {
+      padding: 60px 40px 36px;
+    }
+
+    .gallery-masonry {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Members */
+    .members-layout {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .members-left,
+    .members-right {
+      padding: 60px 40px;
+    }
+
+    .members-left {
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* Events */
+    .events-wrap {
+      padding: 60px 40px;
+    }
+
+    /* Payment */
+    .payment-wrap {
+      padding: 60px 40px;
+    }
+
+    .tier-row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .donate-form {
+      padding: 40px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 40px;
+    }
+  }
+
+  /* ===== MOBILE (≤600px) ===== */
+  @media (max-width: 600px) {
+    /* Nav — hamburger */
+    nav {
+      padding: 0 20px;
+      position: relative;
+    }
+
+    .hamburger {
+      display: flex;
+    }
+
+    .nav-links {
+      display: none;
+      position: absolute;
+      top: 68px;
+      left: 0;
+      right: 0;
+      background: rgba(10,10,10,0.98);
+      backdrop-filter: blur(16px);
+      flex-direction: column;
+      padding: 16px 0 24px;
+      border-bottom: 1px solid var(--border);
+      gap: 0;
+      z-index: 998;
+    }
+
+    .nav-links.open {
+      display: flex;
+    }
+
+    .nav-links a {
+      padding: 14px 24px;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      border-bottom: 1px solid rgba(212,160,23,0.1);
+    }
+
+    .nav-links a:last-child {
+      border-bottom: none;
+    }
+
+    .nav-cta {
+      margin: 12px 24px 0 !important;
+      text-align: center !important;
+      padding: 12px 20px !important;
+    }
+
+    /* Hero */
+    .hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+    }
+
+    .hero-left {
+      padding: 48px 20px 40px;
+    }
+
+    .hero-title {
+      font-size: clamp(3.5rem, 18vw, 5rem);
+    }
+
+    .hero-body {
+      font-size: 0.9rem;
+      margin-bottom: 32px;
+    }
+
+    .hero-actions {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .hero-actions .btn {
+      text-align: center;
+    }
+
+    .hero-right {
+      min-height: 240px;
+    }
+
+    .hero-emblem-wrap img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .hero-emblem-year {
+      font-size: 5rem;
+    }
+
+    /* Stat bar */
+    .stat-bar {
+      flex-wrap: wrap;
+    }
+
+    .stat-item {
+      flex: 1 1 50%;
+      padding: 20px 16px;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .stat-item:first-child {
+      border-left: none;
+    }
+
+    .stat-item:nth-child(odd) {
+      border-right: 1px solid var(--border);
+    }
+
+    .stat-num {
+      font-size: 2.2rem;
+    }
+
+    /* Section head */
+    .section-head {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    /* Pillars */
+    .pillars {
+      padding: 56px 20px;
+    }
+
+    .pillars-grid {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+
+    /* History */
+    .history-hero {
+      height: 200px;
+      padding: 32px 20px;
+    }
+
+    .history-content {
+      padding: 48px 20px;
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+
+    .history-sticky {
+      position: static;
+    }
+
+    /* Gallery */
+    .gallery-header {
+      padding: 48px 20px 28px;
+    }
+
+    .gallery-masonry {
+      grid-template-columns: 1fr;
+      grid-auto-rows: 180px;
+    }
+
+    .gallery-cell.tall {
+      grid-row: span 1;
+    }
+
+    /* Members */
+    .members-left,
+    .members-right {
+      padding: 48px 20px;
+    }
+
+    /* Events */
+    .events-wrap {
+      padding: 48px 20px;
+    }
+
+    .event-row {
+      grid-template-columns: 72px 1fr;
+      grid-template-rows: auto auto;
+      gap: 16px 16px;
+      padding: 24px 0;
+    }
+
+    .event-row:hover {
+      padding-left: 8px;
+    }
+
+    .ev-date {
+      grid-row: 1;
+    }
+
+    .ev-body {
+      grid-row: 1;
+    }
+
+    .event-row > *:last-child {
+      grid-column: 1 / -1;
+    }
+
+    .ev-day {
+      font-size: 2.8rem;
+    }
+
+    .ev-title {
+      font-size: 1.1rem;
+    }
+
+    /* Payment */
+    .payment-wrap {
+      padding: 48px 20px;
+    }
+
+    .tier-row {
+      grid-template-columns: 1fr;
+      gap: 3px;
+    }
+
+    .donate-form {
+      padding: 28px 20px;
+      grid-template-columns: 1fr;
+    }
+
+    .donate-form .full {
+      grid-column: span 1;
+    }
+
+    /* Footer */
+    footer {
+      grid-template-columns: 1fr;
+      padding: 36px 20px;
+      gap: 24px;
+      text-align: center;
+    }
+
+    .footer-left {
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .footer-right {
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+  }
+
+  /* ===== SMALL MOBILE (≤380px) ===== */
+  @media (max-width: 380px) {
+    .hero-left {
+      padding: 40px 16px 36px;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+    }
+
+    .stat-item {
+      flex: 1 1 100%;
+      border-right: none !important;
+    }
+
+    .stat-item:nth-child(odd) {
+      border-right: none !important;
+    }
+
+    .nav-wordmark {
+      font-size: 1.2rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -919,13 +1256,18 @@
       <small>FDNY · Est. 1940</small>
     </div>
   </div>
-  <div class="nav-links">
-    <a onclick="showPage('home')" id="nav-home" class="active">Home</a>
-    <a onclick="showPage('history')" id="nav-history">History</a>
-    <a onclick="showPage('gallery'); loadGallery()" id="nav-gallery">Gallery</a>
-    <a onclick="showPage('members')" id="nav-members">Members</a>
-    <a onclick="showPage('events'); loadEvents()" id="nav-events">Events</a>
-    <a onclick="showPage('payment')" id="nav-payment" class="nav-cta">Support Us</a>
+  <button class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation">
+    <span></span>
+    <span></span>
+    <span></span>
+  </button>
+  <div class="nav-links" id="nav-links">
+    <a onclick="showPage('home');closeMenu()" id="nav-home" class="active">Home</a>
+    <a onclick="showPage('history');closeMenu()" id="nav-history">History</a>
+    <a onclick="showPage('gallery');closeMenu()" id="nav-gallery">Gallery</a>
+    <a onclick="showPage('members');closeMenu()" id="nav-members">Members</a>
+    <a onclick="showPage('events');closeMenu()" id="nav-events">Events</a>
+    <a onclick="showPage('payment');closeMenu()" id="nav-payment" class="nav-cta">Support Us</a>
   </div>
 </nav>
 
@@ -1056,44 +1398,43 @@
     <div class="section-label">Events, People & Milestones</div>
     <div class="section-title">Gallery</div>
   </div>
-  <div class="gallery-masonry" id="gallery-container">
-    <!-- Default placeholder cells shown until CMS photos are uploaded -->
-    <div class="gallery-cell tall" data-cat="Annual Event" onclick="openLightbox('🏆','Annual Event','Scholarship Dinner 2024','New York City · Black Tie')">
+  <div class="gallery-masonry">
+    <div class="gallery-cell tall" data-cat="Annual Event">
       <div class="gallery-icon">🏆</div>
       <h3>Scholarship Dinner 2024</h3>
       <p>New York City · Black Tie</p>
     </div>
-    <div class="gallery-cell" data-cat="FDNY" onclick="openLightbox('🚒','FDNY','FDNY Graduation','Class of 2024')">
+    <div class="gallery-cell" data-cat="FDNY">
       <div class="gallery-icon">🚒</div>
       <h3>FDNY Graduation</h3>
       <p>Class of 2024</p>
     </div>
-    <div class="gallery-cell" data-cat="Community" onclick="openLightbox('🌍','Community','Community Outreach Day','Harlem, New York')">
+    <div class="gallery-cell" data-cat="Community">
       <div class="gallery-icon">🌍</div>
       <h3>Community Outreach Day</h3>
       <p>Harlem, New York</p>
     </div>
-    <div class="gallery-cell" data-cat="Education" onclick="openLightbox('📖','Education','Fire Safety Workshop','Brooklyn Schools Program')">
+    <div class="gallery-cell" data-cat="Education">
       <div class="gallery-icon">📖</div>
       <h3>Fire Safety Workshop</h3>
       <p>Brooklyn Schools Program</p>
     </div>
-    <div class="gallery-cell tall" data-cat="Mentorship" onclick="openLightbox('🤝','Mentorship','Mentorship Program','2023 Cohort Launch')">
+    <div class="gallery-cell tall" data-cat="Mentorship">
       <div class="gallery-icon">🤝</div>
       <h3>Mentorship Program</h3>
       <p>2023 Cohort Launch</p>
     </div>
-    <div class="gallery-cell" data-cat="Legacy" onclick="openLightbox('⚖️','Legacy','Legal Victory','Federal Lawsuit · 2007')">
+    <div class="gallery-cell" data-cat="Legacy">
       <div class="gallery-icon">⚖️</div>
       <h3>Legal Victory</h3>
       <p>Federal Lawsuit · 2007</p>
     </div>
-    <div class="gallery-cell" data-cat="Training" onclick="openLightbox('🔥','Training','Fire Academy Training','Randalls Island, NY')">
+    <div class="gallery-cell" data-cat="Training">
       <div class="gallery-icon">🔥</div>
       <h3>Fire Academy Training</h3>
       <p>Randalls Island, NY</p>
     </div>
-    <div class="gallery-cell" data-cat="Awards" onclick="openLightbox('🎓','Awards','Scholarship Recipients','10 Awards Given · 2023')">
+    <div class="gallery-cell" data-cat="Awards">
       <div class="gallery-icon">🎓</div>
       <h3>Scholarship Recipients</h3>
       <p>10 Awards Given · 2023</p>
@@ -1164,8 +1505,61 @@
   <div class="events-wrap">
     <div class="section-label" style="margin-bottom: 12px;">What's Coming Up</div>
     <div class="section-title" style="margin-bottom: 56px;">Upcoming Events</div>
-    <div id="events-container">
-      <div style="color: var(--grey); font-family: 'Barlow', sans-serif; padding: 40px 0;">Loading events...</div>
+
+    <div class="event-row">
+      <div class="ev-date">
+        <div class="ev-month">Mar</div>
+        <div class="ev-day">15</div>
+        <div class="ev-year">2026</div>
+      </div>
+      <div>
+        <div class="ev-tag">Fundraiser · Black Tie</div>
+        <div class="ev-title">Annual Scholarship Dinner</div>
+        <div class="ev-meta">New York Marriott Marquis, Times Square · 6:00 PM</div>
+      </div>
+      <button class="btn btn-gold" onclick="showPage('payment')">Register</button>
+    </div>
+
+    <div class="event-row">
+      <div class="ev-date">
+        <div class="ev-month">Apr</div>
+        <div class="ev-day">5</div>
+        <div class="ev-year">2026</div>
+      </div>
+      <div>
+        <div class="ev-tag">Community · Free</div>
+        <div class="ev-title">Fire Safety Workshop — Harlem</div>
+        <div class="ev-meta">PS 175 Henry H. Garnet Elementary School · 10:00 AM</div>
+      </div>
+      <button class="btn btn-ghost">RSVP</button>
+    </div>
+
+    <div class="event-row">
+      <div class="ev-date">
+        <div class="ev-month">May</div>
+        <div class="ev-day">10</div>
+        <div class="ev-year">2026</div>
+      </div>
+      <div>
+        <div class="ev-tag">Mentorship · Application Required</div>
+        <div class="ev-title">Mentorship Program Kickoff</div>
+        <div class="ev-meta">FDNY Fire Academy, Randalls Island · 9:00 AM</div>
+      </div>
+      <button class="btn btn-ghost">Apply</button>
+    </div>
+
+    <div class="event-row">
+      <div class="ev-date">
+        <div class="ev-month">Jun</div>
+        <div class="ev-day">22</div>
+        <div class="ev-year">2026</div>
+      </div>
+      <div>
+        <div class="ev-tag">Members Only</div>
+        <div class="ev-title">General Membership Meeting</div>
+        <div class="ev-meta">Vulcan Society HQ, New York City · 7:00 PM</div>
+      </div>
+      <button class="btn btn-ghost" onclick="showPage('members')">Login</button>
     </div>
   </div>
 </div>
@@ -1255,9 +1649,9 @@
   <div class="footer-right">
     <a onclick="showPage('home')">Home</a>
     <a onclick="showPage('history')">History</a>
-    <a onclick="showPage('gallery'); loadGallery()">Gallery</a>
+    <a onclick="showPage('gallery')">Gallery</a>
     <a onclick="showPage('members')">Members</a>
-    <a onclick="showPage('events'); loadEvents()">Events</a>
+    <a onclick="showPage('events')">Events</a>
     <a onclick="showPage('payment')">Support</a>
   </div>
 </footer>
@@ -1270,234 +1664,25 @@
     document.getElementById('nav-' + name).classList.add('active');
     window.scrollTo(0,0);
   }
-</script>
-<!-- ===== LIGHTBOX ===== -->
-<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox(event)">
-  <div class="lightbox-box">
-    <button class="lightbox-close" onclick="closeLightbox()">✕</button>
-    <div class="lb-cat" id="lb-cat"></div>
-    <img class="lb-photo" id="lb-photo" alt="">
-    <span class="lb-emoji" id="lb-emoji"></span>
-    <div class="lb-title" id="lb-title"></div>
-    <div class="lb-caption" id="lb-caption"></div>
-  </div>
-</div>
 
-<script>
-  if (window.netlifyIdentity) {
-    window.netlifyIdentity.on("init", user => {
-      if (!user) {
-        window.netlifyIdentity.on("login", () => {
-          document.location.href = "/admin/";
-        });
-      }
-    });
-  }
-</script>
-
-<script>
-  // ── Lightbox ──────────────────────────────────────────────────────────
-  function openLightbox(emoji, cat, title, caption, photo) {
-    document.getElementById('lb-cat').textContent = cat;
-    document.getElementById('lb-title').textContent = title;
-    document.getElementById('lb-caption').textContent = caption;
-    const emojiEl = document.getElementById('lb-emoji');
-    const photoEl = document.getElementById('lb-photo');
-    if (photo) {
-      photoEl.src = photo;
-      photoEl.classList.add('visible');
-      emojiEl.style.display = 'none';
-    } else {
-      emojiEl.textContent = emoji;
-      emojiEl.style.display = 'block';
-      photoEl.classList.remove('visible');
-    }
-    document.getElementById('lightbox').classList.add('open');
-    document.body.style.overflow = 'hidden';
+  function toggleMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.classList.toggle('open');
+    navLinks.classList.toggle('open');
   }
 
-  function closeLightbox(e) {
-    if (!e || e.target === document.getElementById('lightbox')) {
-      document.getElementById('lightbox').classList.remove('open');
-      document.body.style.overflow = '';
-    }
+  function closeMenu() {
+    const hamburger = document.getElementById('hamburger');
+    const navLinks = document.getElementById('nav-links');
+    hamburger.classList.remove('open');
+    navLinks.classList.remove('open');
   }
 
-  document.addEventListener('keydown', e => {
-    if (e.key === 'Escape') closeLightbox();
-  });
-
-  // ── Dynamic Events Loader ──────────────────────────────────────────────
-  const REPO = 'prolifixdev/vulcan-society-fdny';
-  const EVENTS_API = `https://api.github.com/repos/${REPO}/contents/_data/events`;
-  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-
-  async function loadEvents() {
-    const container = document.getElementById('events-container');
-    try {
-      const res = await fetch(EVENTS_API);
-      if (!res.ok) throw new Error('No events found');
-      const files = await res.json();
-
-      // Fetch all event files in parallel
-      const eventFiles = files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.yml') || f.name.endsWith('.yaml'));
-      if (eventFiles.length === 0) throw new Error('No events yet');
-
-      const events = await Promise.all(eventFiles.map(async f => {
-        const r = await fetch(f.download_url);
-        const text = await r.text();
-        return parseFrontmatter(text);
-      }));
-
-      // Sort by date ascending
-      events.sort((a, b) => new Date(a.date) - new Date(b.date));
-
-      // Render
-      container.innerHTML = events.map(ev => renderEvent(ev)).join('');
-
-    } catch (e) {
-      container.innerHTML = `
-        <div style="color: var(--grey); font-family: 'Barlow', sans-serif; padding: 40px 0; border-top: 1px solid var(--border);">
-          No upcoming events at this time. Check back soon.
-        </div>`;
-    }
-  }
-
-  function parseFrontmatter(text) {
-    // Parse YAML frontmatter between --- delimiters
-    const match = text.match(/^---\s*([\s\S]*?)\s*---/);
-    if (!match) return {};
-    const yaml = match[1];
-    const result = {};
-    yaml.split('\n').forEach(line => {
-      const [key, ...rest] = line.split(':');
-      if (key && rest.length) {
-        result[key.trim()] = rest.join(':').trim().replace(/^["']|["']$/g, '');
-      }
-    });
-    return result;
-  }
-
-  function renderEvent(ev) {
-    const date = ev.date ? new Date(ev.date) : null;
-    const month = date ? MONTHS[date.getMonth()] : '';
-    const day = date ? date.getDate() : '';
-    const year = date ? date.getFullYear() : '';
-    const tag = ev.tag || '';
-    const title = ev.title || 'Untitled Event';
-    const location = ev.location || '';
-
-    // Determine button style based on tag
-    const isGold = tag.toLowerCase().includes('fundraiser') || tag.toLowerCase().includes('register');
-    const btnClass = isGold ? 'btn btn-gold' : 'btn btn-ghost';
-    const btnLabel = tag.toLowerCase().includes('members') ? 'Login' :
-                     tag.toLowerCase().includes('fundraiser') ? 'Register' :
-                     tag.toLowerCase().includes('application') ? 'Apply' : 'RSVP';
-    const btnAction = tag.toLowerCase().includes('members') ? `onclick="showPage('members')"` :
-                      tag.toLowerCase().includes('fundraiser') ? `onclick="showPage('payment')"` : '';
-
-    return `
-      <div class="event-row">
-        <div class="ev-date">
-          <div class="ev-month">${month}</div>
-          <div class="ev-day">${day}</div>
-          <div class="ev-year">${year}</div>
-        </div>
-        <div>
-          <div class="ev-tag">${tag}</div>
-          <div class="ev-title">${title}</div>
-          <div class="ev-meta">${location}</div>
-        </div>
-        <button class="${btnClass}" ${btnAction}>${btnLabel}</button>
-      </div>`;
-  }
-
-
-  // ── Dynamic Gallery Loader ─────────────────────────────────────────────
-  const GALLERY_API = `https://api.github.com/repos/${REPO}/contents/_data/gallery`;
-
-  async function loadGallery() {
-    try {
-      const res = await fetch(GALLERY_API);
-      if (!res.ok) return; // No CMS entries yet — keep placeholders as-is
-      const files = await res.json();
-
-      const galleryFiles = files.filter(f => f.name.endsWith('.md') || f.name.endsWith('.yml'));
-      if (galleryFiles.length === 0) return; // Nothing to do — keep placeholders
-
-      const items = await Promise.all(galleryFiles.map(async f => {
-        const r = await fetch(f.download_url);
-        const text = await r.text();
-        return parseFrontmatter(text);
-      }));
-
-      // For each CMS entry, find a matching placeholder cell by category and update it
-      // If no match found, append as a new cell
-      items.forEach((item, i) => {
-        const cat = (item.category || '').trim();
-        const title = item.title || '';
-        const caption = item.caption || '';
-        const photo = item.photo || '';
-
-        // Try to find an existing placeholder cell with matching category
-        const container = document.getElementById('gallery-container');
-        const existing = container.querySelector(`.gallery-cell[data-cat="${cat}"]`);
-
-        if (existing) {
-          // Cell always keeps its emoji placeholder appearance
-          // Photo only appears inside the lightbox when clicked
-          const emoji = existing.querySelector('.gallery-icon') ? existing.querySelector('.gallery-icon').textContent : '📷';
-          existing.setAttribute('onclick', `openLightbox('${emoji}','${cat}','${title.replace(/'/g,"\\'")}','${caption.replace(/'/g,"\\'")}','${photo.replace(/'/g,"\\'")}')`);
-        } else {
-          // No matching placeholder — append as new cell
-          const div = document.createElement('div');
-          div.className = 'gallery-cell';
-          div.setAttribute('data-cat', cat);
-          div.innerHTML = renderGalleryCell(item, i);
-          container.appendChild(div);
-        }
-      });
-
-    } catch (e) {
-      // On any error keep placeholders unchanged
-    }
-  }
-
-  function renderGalleryCell(item, index) {
-    const tall = (index === 0 || index === 4) ? 'tall' : '';
-    const cat = item.category || '';
-    const title = item.title || '';
-    const caption = item.caption || '';
-    const photo = item.photo || '';
-
-    if (photo) {
-      // Real photo uploaded — show it as background image, lightbox shows full photo
-      return `
-        <div class="gallery-cell ${tall}" data-cat="${cat}" style="background-image: url('${photo}'); background-size: cover; background-position: center;" onclick="openLightbox('','${cat}','${title}','${caption}','${photo}')">
-          <h3>${title}</h3>
-          <p>${caption}</p>
-        </div>`;
-    } else {
-      // No photo yet — placeholder emoji, lightbox shows emoji + details
-      return `
-        <div class="gallery-cell ${tall}" data-cat="${cat}" onclick="openLightbox('📷','${cat}','${title}','${caption}')">
-          <div class="gallery-icon">📷</div>
-          <h3>${title}</h3>
-          <p>${caption}</p>
-        </div>`;
-    }
-  }
-
-  // Hook into nav clicks to load events and gallery when those pages are shown
-  document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        if (link.id === 'nav-events') setTimeout(loadEvents, 50);
-        if (link.id === 'nav-gallery') setTimeout(loadGallery, 50);
-      });
-    });
-    // Also load if events or gallery page is active on initial load
-    if (document.getElementById('page-events').classList.contains('active')) loadEvents();
+  // Close menu on outside click
+  document.addEventListener('click', function(e) {
+    const nav = document.querySelector('nav');
+    if (!nav.contains(e.target)) closeMenu();
   });
 </script>
 </body>
